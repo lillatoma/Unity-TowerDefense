@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-
+[ExecuteInEditMode]
 public class LeftBar : MonoBehaviour
 {
     public GameObject canvas;
     public GameObject bgPanel;
+    public Text moneyText;
+
+    private GameInfoHolder gameInfoHolder;
+
     // Start is called before the first frame update
 
     /// <summary>
@@ -26,9 +30,14 @@ public class LeftBar : MonoBehaviour
         rT.position = new Vector2(unitScale * widthInUnits * 0.5f - size.x * 0.5f - 0.5f, 0f);
     }
 
+    private void Start()
+    {
+        gameInfoHolder = FindObjectOfType<GameInfoHolder>();
+    }
 
     // Update is called once per frame
     void Update()
     {
+        moneyText.text = "$ " + gameInfoHolder.statHolder.playerMoney;
     }
 }

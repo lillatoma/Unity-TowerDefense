@@ -23,8 +23,10 @@ public class TurretSingle : Turret
             {
                 if((transform.position-child.position).magnitude < range)
                 {
-                    //TODO: Damage
+                    child.GetComponent<Enemy>().Damage(damage);
                     timeTillNextShot += 1f / fireRate;
+
+                    transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
                     return;
                 }
             }
@@ -35,6 +37,6 @@ public class TurretSingle : Turret
     // Update is called once per frame
     void Update()
     {
-        
+        AttackOpponents();
     }
 }

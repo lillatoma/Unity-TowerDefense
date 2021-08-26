@@ -8,6 +8,9 @@ public class GameInfoHolder : MonoBehaviour
     public TurretInfoHolder turretInfoHolder;
     public StatHolder statHolder;
     public MapCreator mapCreator;
+    public EnemyInfoHolder enemyInfoHolder;
+    public CurrentLevelHolder currentLevelHolder;
+    public PathHolder pathHolder;
 
     // Start is called before the first frame update
     void Start()

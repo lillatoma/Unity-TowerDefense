@@ -9,6 +9,12 @@ public class GameController : MonoBehaviour
     public bool levelEnded = true;
     private GameObject enemyContainer;
     private GameInfoHolder gameInfoHolder;
+
+    public void ChangePauseBehaviour()
+    {
+        spawnPaused = !spawnPaused;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,7 @@ public class GameController : MonoBehaviour
     {
         GameObject gO = GameObject.Instantiate(gameInfoHolder.enemyInfoHolder.enemies[gameInfoHolder.currentLevelHolder.enemyIndex]);
         gO.transform.parent = enemyContainer.transform;
+        gO.transform.position = new Vector3(100, 100, 100);
         gO.GetComponent<Enemy>().health = gameInfoHolder.currentLevelHolder.enemyHealth;
         gO.GetComponent<Enemy>().totalHealth = gameInfoHolder.currentLevelHolder.enemyHealth;
         gO.GetComponent<Enemy>().speed = gameInfoHolder.currentLevelHolder.enemySpeed;

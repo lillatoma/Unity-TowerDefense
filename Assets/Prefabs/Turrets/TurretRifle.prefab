@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3683022885078610585}
   - component: {fileID: 3683022885078610584}
   m_Layer: 0
-  m_Name: TurretPistol
+  m_Name: TurretRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 691373d6115f45d4490212ae85ee95d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2193923d73336fa4a8117ade9b383031, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,20 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8e6e87f661b8c409d34c14174e0a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretName: Pistol
-  basePrice: 250
-  damage: 12
-  range: 5
-  fireRate: 2
-  damageStep: 2
-  rangeStep: 0.2
-  fireRateStep: 0.25
-  damageUpgrade: 15
-  rangeUpgrade: 15
-  fireRateUpgrade: 15
-  damageUpgradeStep: 25
-  rangeUpgradeStep: 30
-  fireRateUpgradeStep: 35
+  turretName: Rifle
+  basePrice: 1000
+  damage: 18
+  range: 6
+  fireRate: 5
+  damageStep: 3
+  rangeStep: 0.15
+  fireRateStep: 0.3
+  damageUpgrade: 50
+  rangeUpgrade: 50
+  fireRateUpgrade: 50
+  damageUpgradeStep: 45
+  rangeUpgradeStep: 45
+  fireRateUpgradeStep: 45
   cashSpent: 0
   totalUpgrades: 0
   noOfUpgrades: 0

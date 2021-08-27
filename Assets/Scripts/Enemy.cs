@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public string enemyName;
     public int health;
     public int totalHealth;
     public float speed;
@@ -11,7 +12,8 @@ public class Enemy : MonoBehaviour
     public float moveTime = 0f;
 
     public EnemyPath path;
-
+    public GameObject healthBarBg;
+    public GameObject healthBar;
 
     public void OnDeath()
     {
@@ -45,7 +47,8 @@ public class Enemy : MonoBehaviour
             }
             distTraveled -= pointDist;
         }
-        return new Vector3(0, 0, -0.5f);
+        moveTime = 0f;
+        return GetPosition();
     }
 
     public float GetDirectionAngle()
@@ -54,17 +57,48 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < path.pathPoints.Count - 1; i++)
         {
-            float pointDist = (path.pathPoints[i - 1] - path.pathPoints[i]).magnitude;
+            float pointDist = (path.pathPoints[i + 1] - path.pathPoints[i]).magnitude;
 
             if (distTraveled < pointDist)
             {
-                float angle = Utils.RealVector2Angle(path.pathPoints[i] - path.pathPoints[i - 1]);
+                float angle = Utils.RealVector2Angle(path.pathPoints[i+1] - path.pathPoints[i]);
                 return angle;
             }
             distTraveled -= pointDist;
         }
-        return 0f;
+        moveTime = 0f;
+        return GetDirectionAngle();
     }
+
+    public void UpdateHealthBar()
+    {
+        float percent = (float)health / (float)totalHealth;
+
+        healthBarBg.transform.rotation = Quaternion.Euler(0, 0, 0);
+        healthBarBg.transform.position = transform.position + new Vector3(0f, -0.55f, -0.4f);
+        healthBar.transform.localScale = new Vector3(0.8f * percent, 0.1f, 1f);
+        healthBar.transform.rotation = Quaternion.Euler(0, 0, 0);
+        healthBar.transform.position = transform.position + new Vector3(0f - 0.4f * (1f-percent), -0.55f, -0.5f);
+
+
+
+        float r = 1;
+        float g = 1;
+        byte b = 0;
+
+        if(percent > 0.5f)
+        {
+            r = (byte)(1f - (percent - 0.5f) * 2f);
+        }
+        else if (percent >= 0f)
+        {
+            g = (byte)(percent * 2f);
+        }
+
+
+        healthBar.GetComponent<SpriteRenderer>().color = new Color(r, g, b);
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,5 +116,6 @@ public class Enemy : MonoBehaviour
         else moveTime += Time.deltaTime;
         transform.position = GetPosition() + new Vector3(-16.5f,-15.5f,0);
         transform.rotation = Quaternion.Euler(0, 0, GetDirectionAngle());
+        UpdateHealthBar();
     }
 }

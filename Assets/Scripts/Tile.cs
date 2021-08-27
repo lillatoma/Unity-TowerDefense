@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour
             return;
 
 
-        if (gameInfoHolder.statHolder.playerMoney > gameInfoHolder.turretInfoHolder.turrets[selected].GetComponent<Turret>().basePrice)
+        if (gameInfoHolder.statHolder.playerMoney >= gameInfoHolder.turretInfoHolder.turrets[selected].GetComponent<Turret>().basePrice)
         {
             gameInfoHolder.statHolder.playerMoney -= gameInfoHolder.turretInfoHolder.turrets[selected].GetComponent<Turret>().basePrice;
 

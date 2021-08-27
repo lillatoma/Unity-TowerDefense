@@ -24,9 +24,9 @@ public class CurrentLevelHolder : MonoBehaviour
 
         for(int i = 0; i < level; i++)
         {
-            baseHealth += 2;
-            baseSpeed += .025f;
-            baseHealth = (int)(1.01f * baseHealth);
+            baseHealth += 4;
+            baseSpeed += .075f;
+            baseHealth = (int)(1.0125f * baseHealth);
         }
 
         int healthPoints = Random.Range(0, skillPoints);
@@ -44,14 +44,14 @@ public class CurrentLevelHolder : MonoBehaviour
         
         for(int i = 0; i < healthPoints; i++)
         {
-            baseHealth += 2;
-            baseHealth = (int)(1.005f * baseHealth);
+            baseHealth += 10;
+            baseHealth = (int)(1.015f * baseHealth);
         }
 
         for(int i = 0; i < speedPoints; i++)
         {
-            baseSpeed += 0.05f;
-            baseSpeed *= 1.01f;
+            baseSpeed += 0.1f;
+            baseSpeed *= 1.0125f;
         }
 
         baseAmount += 3 * amountPoints;
@@ -65,7 +65,7 @@ public class CurrentLevelHolder : MonoBehaviour
 
         for(int i = 0; i < speedPoints + healthPoints;i++)
         {
-            baseMoney += 1;
+            baseMoney += 2;
             baseMoney = (int)(1.03f * baseMoney);
         }
 

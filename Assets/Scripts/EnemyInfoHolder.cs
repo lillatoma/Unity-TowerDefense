@@ -8,7 +8,7 @@ public class EnemyInfoHolder : MonoBehaviour
 
     public int RandomIndex()
     {
-        return Random.Range(0, enemies.Length - 1);
+        return Random.Range(0, enemies.Length);
     }
 }
 

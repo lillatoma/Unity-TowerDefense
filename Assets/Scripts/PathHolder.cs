@@ -14,7 +14,6 @@ public class PathHolder : MonoBehaviour
 
 
     [Header("The paths")]
-    public int testValue;
     public EnemyPath[] paths;
 
 

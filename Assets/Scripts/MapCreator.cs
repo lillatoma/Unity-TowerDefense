@@ -10,7 +10,7 @@ public class MapCreator : MonoBehaviour
     public GameObject[] pathBlocks;
     public GameObject[] turretBlocks;
 
-    private GameObject[,] Blocks;
+    public GameObject[,] Blocks;
 
 
     int GetTextureIndexOfBlock(int x, int y)

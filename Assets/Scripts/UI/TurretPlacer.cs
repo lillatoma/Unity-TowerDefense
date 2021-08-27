@@ -14,7 +14,6 @@ public class TurretPlacer : MonoBehaviour
 
 
     public int turretID = 0;
-    public string turretName;
 
     public GameInfoHolder gameInfoHolder;
     void SetupGameInfoHolder()
@@ -36,6 +35,8 @@ public class TurretPlacer : MonoBehaviour
 
 
         int turretPrice = gameInfoHolder.turretInfoHolder.turrets[turretID].GetComponent<Turret>().basePrice;
+        string turretName = gameInfoHolder.turretInfoHolder.turrets[turretID].GetComponent<Turret>().turretName;
+
 
         nameText.text = turretName;
         priceText.text = "$" + turretPrice;

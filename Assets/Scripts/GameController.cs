@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public bool spawnPaused = true;
@@ -39,7 +39,10 @@ public class GameController : MonoBehaviour
         levelEnded = false;
         gameInfoHolder.currentLevelHolder.GenerateLevel();
         gameInfoHolder.currentLevelHolder.AdvanceLevel();
-        yield return new WaitForSeconds(1f);
+
+        float spawnWaitTime = 1.05f - (float)gameInfoHolder.currentLevelHolder.remainingEnemies * 0.005f;
+
+        yield return new WaitForSeconds(spawnWaitTime);
 
 
         int lanes = gameInfoHolder.pathHolder.paths.Length;
@@ -59,6 +62,28 @@ public class GameController : MonoBehaviour
 
     }
 
+    public int CalculatePoints()
+    {
+        int points = 0;
+        points += gameInfoHolder.currentLevelHolder.level * gameInfoHolder.currentLevelHolder.level * 100;
+        points += gameInfoHolder.statHolder.moneyGained;
+        points += gameInfoHolder.statHolder.eliminatedOpponents * 20;
+
+        return points;
+    }
+
+    public void FinishGame()
+    {
+        int points = CalculatePoints();
+        int highPoints = PlayerPrefs.GetInt("Highscore",0);
+        PlayerPrefs.SetInt("CurrentPoints", points);
+
+        if (points > highPoints)
+            PlayerPrefs.SetInt("Highscore", points);
+
+        SceneManager.LoadScene("ScoreMenu");
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -66,5 +91,8 @@ public class GameController : MonoBehaviour
             StartCoroutine(SpawnLevel());
         if (enemyContainer.transform.childCount == 0 && gameInfoHolder.currentLevelHolder.remainingEnemies == 0)
             levelEnded = true;
+
+        if (gameInfoHolder.statHolder.livesLeft <= 0)
+            FinishGame();
     }
 }

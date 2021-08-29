@@ -5,12 +5,22 @@ using UnityEngine;
 /// <summary>
 /// Default Turret. Shots one bullet, no special effect.
 /// </summary>
-public class TurretSingle : Turret
+public class TurretFlash : Turret
 {
+    [Header("Flash data")]
+    public float flashDuration;
+    public float flashDurationStep;
+    public int flashDurationUpgrade;
+    public int flashDurationUpgradeStep;
 
-
+    private int flashLevel = 0;
 
     EffectManager effectManager;
+
+    public int UpgradePriceFlashDuration()
+    {
+        return flashDurationUpgrade + flashLevel * flashDurationUpgradeStep;
+    }
 
     void AttackOpponents()
     {
@@ -19,12 +29,31 @@ public class TurretSingle : Turret
 
         if (timeTillNextShot < 0f)
         {
-            foreach(Transform child in enemyContainer.transform)
+
+            foreach (Transform child in enemyContainer.transform)
+            {
+                if ((transform.position - child.position).magnitude < range
+                    && child.gameObject.GetComponent<Enemy>().timeLeftFrozen <= 0f)
+                {
+                    child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Freeze(flashDuration);
+                    timeTillNextShot += 1f / fireRate;
+
+                    CreateLine(child.position);
+                    transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
+                    return;
+                }
+            }
+
+
+            foreach (Transform child in enemyContainer.transform)
             {
                 if((transform.position-child.position).magnitude < range)
                 {
                     child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Freeze(flashDuration);
                     timeTillNextShot += 1f / fireRate;
+
                     CreateLine(child.position);
                     transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
                     return;
@@ -39,7 +68,7 @@ public class TurretSingle : Turret
         GetGameInfoHolder();
         enemyContainer = GameObject.FindGameObjectWithTag("EnemyContainer");
         effectManager = GameObject.FindGameObjectWithTag("Effects").GetComponent<EffectManager>();
-        noOfUpgrades = 3;
+        noOfUpgrades = 4;
         upgrades = new UpgradeData[noOfUpgrades];
         SetUpgradeData();
     }
@@ -68,6 +97,13 @@ public class TurretSingle : Turret
         upgrades[2].isInteger = false;
         upgrades[2].valueFloat = fireRate;
         upgrades[2].valueNextFloat = fireRate + fireRateStep;
+
+        upgrades[3].name = "Flash duration";
+        upgrades[3].upPrice = UpgradePriceFlashDuration();
+        upgrades[3].level = flashLevel;
+        upgrades[3].isInteger = false;
+        upgrades[3].valueFloat = flashDuration;
+        upgrades[3].valueNextFloat = flashDuration + flashDurationStep;
     }
 
     public void CreateLine(Vector3 lastShotTarget)
@@ -75,8 +111,8 @@ public class TurretSingle : Turret
 
         effectManager.SetupLineEffect(new Vector3(transform.position.x, transform.position.y, -0.2f),
             new Vector3(lastShotTarget.x, lastShotTarget.y, -0.2f),
-            new Color(1f, 1f, 0f),
-            new Color(1f, 0.75f, 0f));
+            new Color(0f, 1f, 0f),
+            new Color(0f, 0.75f, 0.33f));
 
     }
     public override void Upgrade(int which)
@@ -112,6 +148,17 @@ public class TurretSingle : Turret
                 fireRateLevel++;
                 totalUpgrades++;
                 fireRate += fireRateStep;
+            }
+        }
+        else if (which == 3) //Flash duration
+        {
+            if (gameInfoHolder.statHolder.playerMoney >= UpgradePriceFlashDuration())
+            {
+                gameInfoHolder.statHolder.playerMoney -= UpgradePriceFlashDuration();
+                cashSpent += UpgradePriceFlashDuration();
+                flashLevel++;
+                totalUpgrades++;
+                flashDuration += flashDurationStep;
             }
         }
     }

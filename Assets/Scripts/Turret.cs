@@ -18,13 +18,13 @@ public class UpgradeData
     public string GetValuePrinted()
     {
         if (isInteger) return valueInt.ToString();
-        return valueFloat.ToString();
+        return string.Format("{0:0.00}",valueFloat);
     }
 
     public string GetNextValuePrinted()
     {
         if (isInteger) return valueNextInt.ToString();
-        return valueNextFloat.ToString();
+        return string.Format("{0:0.00}",valueNextFloat);
     }
 
     public UpgradeData()

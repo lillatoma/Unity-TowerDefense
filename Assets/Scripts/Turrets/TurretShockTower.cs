@@ -2,34 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Default Turret. Shots one bullet, no special effect.
-/// </summary>
-public class TurretSingle : Turret
+public class TurretShockTower : Turret
 {
-
-
-
     EffectManager effectManager;
+    public void CreateLine(Vector3 lastShotTarget)
+    {
 
+        effectManager.SetupLineEffect(new Vector3(transform.position.x, transform.position.y, -0.2f),
+            new Vector3(lastShotTarget.x, lastShotTarget.y, -0.2f),
+            new Color(0f, 0.75f, 1f),
+            new Color(0f, 0.25f, 1f));
+
+    }
     void AttackOpponents()
     {
         if (timeTillNextShot >= -0.1f)
             timeTillNextShot -= Time.deltaTime;
 
+
+
         if (timeTillNextShot < 0f)
         {
-            foreach(Transform child in enemyContainer.transform)
+            bool hit = false;
+            foreach (Transform child in enemyContainer.transform)
             {
-                if((transform.position-child.position).magnitude < range)
+                if ((transform.position - child.position).magnitude < range)
                 {
                     child.GetComponent<Enemy>().Damage(damage);
-                    timeTillNextShot += 1f / fireRate;
+                    hit = true;
                     CreateLine(child.position);
-                    transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
-                    return;
                 }
             }
+            if(hit)
+                timeTillNextShot += 1f / fireRate;
 
         }
     }
@@ -46,7 +51,7 @@ public class TurretSingle : Turret
 
     private void SetUpgradeData()
     {
-        for(int i =0; i < upgrades.Length;i++)
+        for (int i = 0; i < upgrades.Length; i++)
             upgrades[i] = new UpgradeData();
         upgrades[0].name = "Damage";
         upgrades[0].upPrice = UpgradePriceDamage();
@@ -70,15 +75,7 @@ public class TurretSingle : Turret
         upgrades[2].valueNextFloat = fireRate + fireRateStep;
     }
 
-    public void CreateLine(Vector3 lastShotTarget)
-    {
 
-        effectManager.SetupLineEffect(new Vector3(transform.position.x, transform.position.y, -0.2f),
-            new Vector3(lastShotTarget.x, lastShotTarget.y, -0.2f),
-            new Color(1f, 1f, 0f),
-            new Color(1f, 0.75f, 0f));
-
-    }
     public override void Upgrade(int which)
     {
         if (which == 0) //Damage

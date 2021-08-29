@@ -7,6 +7,8 @@ public class MapCreator : MonoBehaviour
 {
     public int bgIndex = 0;
 
+    public GameObject cheatObject;
+
     public GameObject[] pathBlocks;
     public GameObject[] turretBlocks;
 
@@ -101,6 +103,20 @@ public class MapCreator : MonoBehaviour
         gO.GetComponent<WorldObjectMid>().enabled = false;
         gO.GetComponent<Tile>().indexCoordinates = new Vector2Int(x, y);
         Blocks[x, y] = gO;
+        //CreateCheatObject(x, y);
+    }
+
+    void CreateCheatObject(int x, int y)
+    {
+        if(Blocks[x,y] != null)
+        {
+            if (Blocks[x, y].GetComponent<Tile>().isTurretSpace)
+            {
+                GameObject gO = GameObject.Instantiate(cheatObject);
+                gO.transform.parent = Blocks[x, y].transform;
+                gO.transform.localPosition = new Vector3(0,0,-0.5f);
+            }
+        }
     }
     void GenerateBackground()
     {

@@ -110,10 +110,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turretName: Sniper
   basePrice: 1000
-  damage: 60
+  damage: 200
   range: 12
   fireRate: 0.5
-  damageStep: 6
+  damageStep: 20
   rangeStep: 0.5
   fireRateStep: 0.1
   damageUpgrade: 50

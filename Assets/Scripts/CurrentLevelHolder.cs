@@ -18,6 +18,17 @@ public class CurrentLevelHolder : MonoBehaviour
     {
         int skillPoints = level;
 
+        if (level > 10)
+            skillPoints += (level - 10);
+        if (level > 25)
+            skillPoints += (level - 25);
+        if (level > 50)
+            skillPoints += (level - 50);
+        if (level > 75)
+            skillPoints += (level - 75);
+        if (level > 100)
+            skillPoints += (level - 100);
+
         int baseHealth = 20;
         float baseSpeed = 2f;
         int baseAmount = 10;
@@ -66,7 +77,7 @@ public class CurrentLevelHolder : MonoBehaviour
         for(int i = 0; i < speedPoints + healthPoints;i++)
         {
             baseMoney += 2;
-            baseMoney = (int)(1.03f * baseMoney);
+            baseMoney = (int)(1.005f * baseMoney);
         }
 
         enemyMoney = baseMoney;

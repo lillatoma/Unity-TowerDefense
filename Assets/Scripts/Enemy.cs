@@ -23,10 +23,16 @@ public class Enemy : MonoBehaviour
         gih.statHolder.eliminatedOpponents++;
         Destroy(this.gameObject);
     }
+
+    public void Freeze(float time)
+    {
+        timeLeftFrozen += time;
+    }
+
     public void Damage(int dmg)
     {
         health -= dmg;
-        if (health < 0)
+        if (health <= 0)
             OnDeath(); 
     }
     public Vector3 GetPosition()
@@ -48,6 +54,8 @@ public class Enemy : MonoBehaviour
             distTraveled -= pointDist;
         }
         moveTime = 0f;
+        GameInfoHolder gih = FindObjectOfType<GameInfoHolder>();
+        gih.statHolder.livesLeft--;
         return GetPosition();
     }
 
@@ -67,6 +75,8 @@ public class Enemy : MonoBehaviour
             distTraveled -= pointDist;
         }
         moveTime = 0f;
+        GameInfoHolder gih = FindObjectOfType<GameInfoHolder>();
+        gih.statHolder.livesLeft--;
         return GetDirectionAngle();
     }
 

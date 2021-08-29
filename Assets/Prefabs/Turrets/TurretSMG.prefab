@@ -110,17 +110,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turretName: SMG
   basePrice: 500
-  damage: 8
+  damage: 10
   range: 4
   fireRate: 6
   damageStep: 2
   rangeStep: 0.2
-  fireRateStep: 0.35
+  fireRateStep: 0.5
   damageUpgrade: 35
   rangeUpgrade: 30
   fireRateUpgrade: 30
   damageUpgradeStep: 40
-  rangeUpgradeStep: 40
+  rangeUpgradeStep: 35
   fireRateUpgradeStep: 30
   cashSpent: 0
   totalUpgrades: 0

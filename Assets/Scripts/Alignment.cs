@@ -15,7 +15,7 @@ public class Alignment : MonoBehaviour
     void Update()
     {
         // This sets the left bar correctly
-        leftBar.transform.position = new Vector3();
+        leftBar.transform.position = new Vector3(0,0,-1);
         leftBar.GetComponent<LeftBar>().UpdateBgPanel(leftBarSize);
 
 
@@ -24,7 +24,7 @@ public class Alignment : MonoBehaviour
         map.transform.position = new Vector3(leftBarSize - 13, 0, 0);
 
         // This sets the right bar correctly
-        rightBar.transform.position = new Vector3(0, 0, 0);
+        rightBar.transform.position = new Vector3(0, 0, -1);
         rightBar.GetComponent<RightBar>().UpdateBgPanel(leftBarSize + 32);
     }
 

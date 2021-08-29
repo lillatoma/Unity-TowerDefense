@@ -10,6 +10,7 @@ public class LeftBar : MonoBehaviour
     public GameObject canvas;
     public GameObject bgPanel;
     public Text moneyText;
+    public Text lifeText;
 
     private GameInfoHolder gameInfoHolder;
 
@@ -39,5 +40,6 @@ public class LeftBar : MonoBehaviour
     void Update()
     {
         moneyText.text = "$ " + gameInfoHolder.statHolder.playerMoney;
+        lifeText.text = "\u2764 " + gameInfoHolder.statHolder.livesLeft;
     }
 }

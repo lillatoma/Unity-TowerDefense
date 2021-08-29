@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turretName: Pistol
   basePrice: 250
-  damage: 12
+  damage: 14
   range: 5
   fireRate: 2
   damageStep: 2
@@ -119,9 +119,9 @@ MonoBehaviour:
   damageUpgrade: 15
   rangeUpgrade: 15
   fireRateUpgrade: 15
-  damageUpgradeStep: 25
-  rangeUpgradeStep: 30
-  fireRateUpgradeStep: 35
+  damageUpgradeStep: 20
+  rangeUpgradeStep: 25
+  fireRateUpgradeStep: 30
   cashSpent: 0
   totalUpgrades: 0
   noOfUpgrades: 0

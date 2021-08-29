@@ -5,6 +5,8 @@ using UnityEngine;
 public class StatHolder : MonoBehaviour
 {
     public int playerMoney;
+    public int livesLeft;
+
 
     public int moneyGained;
     public int eliminatedOpponents;

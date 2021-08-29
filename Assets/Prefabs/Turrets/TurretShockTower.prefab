@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3683022885078610587}
   - component: {fileID: 3683022885078610586}
   - component: {fileID: 3683022885078610585}
-  - component: {fileID: 3683022885078610584}
+  - component: {fileID: -2687185911234556741}
   m_Layer: 0
-  m_Name: TurretRifle
+  m_Name: TurretShockTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2193923d73336fa4a8117ade9b383031, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89a1bd3d7b5fa4d4da29fc48944cc266, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb13ec5d9d2cb740854332aa98e5443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3683022885078610584
+--- !u!114 &-2687185911234556741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,23 +105,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 3683022885078610581}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8e6e87f661b8c409d34c14174e0a89, type: 3}
+  m_Script: {fileID: 11500000, guid: d50acc9d786c3724a9419db747bfb879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretName: Rifle
-  basePrice: 1000
-  damage: 25
-  range: 6
-  fireRate: 5
-  damageStep: 5
-  rangeStep: 0.15
-  fireRateStep: 0.35
-  damageUpgrade: 50
-  rangeUpgrade: 50
-  fireRateUpgrade: 50
+  turretName: Shock Tower
+  basePrice: 2000
+  damage: 50
+  range: 4
+  fireRate: 1
+  damageStep: 8
+  rangeStep: 0.2
+  fireRateStep: 0.125
+  damageUpgrade: 40
+  rangeUpgrade: 70
+  fireRateUpgrade: 90
   damageUpgradeStep: 45
-  rangeUpgradeStep: 45
-  fireRateUpgradeStep: 45
+  rangeUpgradeStep: 60
+  fireRateUpgradeStep: 65
   cashSpent: 0
   totalUpgrades: 0
   noOfUpgrades: 0

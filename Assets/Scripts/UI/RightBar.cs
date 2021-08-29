@@ -9,7 +9,14 @@ public class RightBar : MonoBehaviour
 {
     public GameObject canvas;
     public GameObject bgPanel;
-    // Start is called before the first frame update
+    public Text lvlText;
+
+    private GameInfoHolder gameInfoHolder;
+
+    private void Start()
+    {
+        gameInfoHolder = FindObjectOfType<GameInfoHolder>();
+    }
 
     /// <summary>
     /// This function uses the Canvas's rect transform, and widthInUnits to 
@@ -28,9 +35,13 @@ public class RightBar : MonoBehaviour
         rT.position = new Vector2((size.x-remainingSpace)*0.5f - 0.5f, 0f);
     }
 
-
+    public void UpdateLevelText()
+    {
+        lvlText.text = "Lvl. " + gameInfoHolder.currentLevelHolder.level;
+    }
     // Update is called once per frame
     void Update()
     {
+        UpdateLevelText();
     }
 }

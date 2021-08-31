@@ -23,7 +23,8 @@ public class TurretSingle : Turret
             {
                 if((transform.position-child.position).magnitude < range)
                 {
-                    child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Damage(damage,
+                        transform.parent.GetComponent<Tile>().indexCoordinates);
                     timeTillNextShot += 1f / fireRate;
                     CreateLine(child.position);
                     transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);

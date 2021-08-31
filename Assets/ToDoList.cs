@@ -1,5 +1,5 @@
 ////////////////////////////////////////////
-/// Machinegun
-/// Goal: hearts
-/// Main menu and end menu
+/// Button for turret placing
+/// More Enemy types: Charged runner, Splitter
+/// Boss rounds for every 10 level
 ////////////////////////////////////////////

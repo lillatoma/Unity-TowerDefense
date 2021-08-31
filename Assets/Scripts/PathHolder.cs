@@ -5,8 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyPath
 {
-    public List<Vector2Int> pathPoints;
+    public List<Vector2> pathPoints;
 }
+
+
 
 public class PathHolder : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class PathHolder : MonoBehaviour
 
     [Header("The paths")]
     public EnemyPath[] paths;
+    public EnemyPath bossPath;
 
 
     // Start is called before the first frame update

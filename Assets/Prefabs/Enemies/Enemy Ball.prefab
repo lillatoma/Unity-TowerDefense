@@ -107,6 +107,7 @@ MonoBehaviour:
     pathPoints: []
   healthBarBg: {fileID: 4660788670806118148}
   healthBar: {fileID: 4070969273181930285}
+  deadModel: {fileID: 2807238025995109511, guid: 1639a26f281dfa747bb0df5852503548, type: 3}
 --- !u!1 &4070969273181930285
 GameObject:
   m_ObjectHideFlags: 0

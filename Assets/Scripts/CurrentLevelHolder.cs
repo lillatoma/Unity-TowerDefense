@@ -14,6 +14,12 @@ public class CurrentLevelHolder : MonoBehaviour
     public float enemySpeed;
     public int enemyMoney;
 
+    public bool IsBossRound(int l = -1)
+    {
+        if (l == -1)
+            l = level;
+        return (l % 10) == 0;
+    }
     public void GenerateLevel()
     {
         int skillPoints = level;
@@ -29,62 +35,115 @@ public class CurrentLevelHolder : MonoBehaviour
         if (level > 100)
             skillPoints += (level - 100);
 
-        int baseHealth = 20;
-        float baseSpeed = 2f;
-        int baseAmount = 10;
-
-        for(int i = 0; i < level; i++)
+        if (IsBossRound(level + 1))
         {
-            baseHealth += 4;
-            baseSpeed += .075f;
-            baseHealth = (int)(1.0125f * baseHealth);
+            int healthPoints = Random.Range(0, skillPoints);
+            skillPoints -= healthPoints;
+
+            int speedPoints = Random.Range(0, skillPoints);
+            skillPoints -= speedPoints;
+
+            int rval = Random.Range(0, skillPoints);
+            speedPoints += rval;
+            healthPoints += (skillPoints - rval);
+
+            int baseHealth = 200;
+            float baseSpeed = 1f;
+
+            for (int i = 0; i < level; i++)
+            {
+                baseHealth += 15;
+                baseSpeed += .015f;
+                baseHealth = (int)(1.0125f * baseHealth);
+            }
+
+            for (int i = 0; i < healthPoints; i++)
+            {
+                baseHealth += 50;
+                baseHealth = (int)(1.015f * baseHealth);
+            }
+
+            for (int i = 0; i < speedPoints; i++)
+            {
+                baseSpeed += 0.1f;
+            }
+
+            totalEnemies = 1;
+            enemyHealth = baseHealth;
+            enemySpeed = baseSpeed;
+            remainingEnemies = totalEnemies;
+
+            int baseMoney = 100;
+
+            for (int i = 0; i < speedPoints + healthPoints; i++)
+            {
+                baseMoney += 25;
+                baseMoney = (int)(1.005f * baseMoney);
+            }
+
+            enemyMoney = baseMoney;
+
+            enemyIndex = gameInfoHolder.enemyInfoHolder.RandomIndex();
         }
-
-        int healthPoints = Random.Range(0, skillPoints);
-        skillPoints -= healthPoints;
-
-        int speedPoints = Random.Range(0, skillPoints);
-        skillPoints -= speedPoints;
-
-        int amountPoints = Random.Range(0, Mathf.Min(30, skillPoints));
-        skillPoints -= amountPoints;
-
-        int rval = Random.Range(0, skillPoints);
-        speedPoints += rval;
-        healthPoints += (skillPoints - rval);
-        
-        for(int i = 0; i < healthPoints; i++)
+        else
         {
-            baseHealth += 10;
-            baseHealth = (int)(1.015f * baseHealth);
+
+            int baseHealth = 20;
+            float baseSpeed = 2f;
+            int baseAmount = 10;
+
+            for (int i = 0; i < level; i++)
+            {
+                baseHealth += 4;
+                baseSpeed += .075f;
+                baseHealth = (int)(1.0125f * baseHealth);
+            }
+
+            int healthPoints = Random.Range(0, skillPoints);
+            skillPoints -= healthPoints;
+
+            int speedPoints = Random.Range(0, skillPoints);
+            skillPoints -= speedPoints;
+
+            int amountPoints = Random.Range(0, Mathf.Min(30, skillPoints));
+            skillPoints -= amountPoints;
+
+            int rval = Random.Range(0, skillPoints);
+            speedPoints += rval;
+            healthPoints += (skillPoints - rval);
+
+            for (int i = 0; i < healthPoints; i++)
+            {
+                baseHealth += 10;
+                baseHealth = (int)(1.015f * baseHealth);
+            }
+
+            for (int i = 0; i < speedPoints; i++)
+            {
+                baseSpeed += 0.1f;
+                baseSpeed *= 1.0125f;
+            }
+
+            baseAmount += 3 * amountPoints;
+
+            totalEnemies = baseAmount;
+            enemyHealth = baseHealth;
+            enemySpeed = baseSpeed;
+            remainingEnemies = totalEnemies;
+
+            int baseMoney = 10;
+
+            for (int i = 0; i < speedPoints + healthPoints; i++)
+            {
+                baseMoney += 2;
+                baseMoney = (int)(1.005f * baseMoney);
+            }
+
+            enemyMoney = baseMoney;
+
+            enemyIndex = gameInfoHolder.enemyInfoHolder.RandomIndex();
+
         }
-
-        for(int i = 0; i < speedPoints; i++)
-        {
-            baseSpeed += 0.1f;
-            baseSpeed *= 1.0125f;
-        }
-
-        baseAmount += 3 * amountPoints;
-
-        totalEnemies = baseAmount;
-        enemyHealth = baseHealth;
-        enemySpeed = baseSpeed;
-        remainingEnemies = totalEnemies;
-
-        int baseMoney = 10;
-
-        for(int i = 0; i < speedPoints + healthPoints;i++)
-        {
-            baseMoney += 2;
-            baseMoney = (int)(1.005f * baseMoney);
-        }
-
-        enemyMoney = baseMoney;
-
-        enemyIndex = gameInfoHolder.enemyInfoHolder.RandomIndex();
-
-
     }
 
     public void AdvanceLevel()

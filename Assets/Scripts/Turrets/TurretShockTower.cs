@@ -28,7 +28,8 @@ public class TurretShockTower : Turret
             {
                 if ((transform.position - child.position).magnitude < range)
                 {
-                    child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Damage(damage,
+                        transform.parent.GetComponent<Tile>().indexCoordinates);
                     hit = true;
                     CreateLine(child.position);
                 }

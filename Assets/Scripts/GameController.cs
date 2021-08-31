@@ -34,31 +34,54 @@ public class GameController : MonoBehaviour
 
     }
 
+    void SpawnBoss()
+    {
+        GameObject gO = GameObject.Instantiate(gameInfoHolder.enemyInfoHolder.enemies[gameInfoHolder.currentLevelHolder.enemyIndex]);
+        gO.transform.parent = enemyContainer.transform;
+        gO.transform.position = new Vector3(100, 100, 100);
+        gO.transform.localScale = new Vector3(2f, 2f, 2f);
+        gO.GetComponent<Enemy>().health = gameInfoHolder.currentLevelHolder.enemyHealth;
+        gO.GetComponent<Enemy>().totalHealth = gameInfoHolder.currentLevelHolder.enemyHealth;
+        gO.GetComponent<Enemy>().speed = gameInfoHolder.currentLevelHolder.enemySpeed;
+        gO.GetComponent<Enemy>().path = gameInfoHolder.pathHolder.bossPath;
+    }
+
     IEnumerator SpawnLevel()
     {
         levelEnded = false;
         gameInfoHolder.currentLevelHolder.GenerateLevel();
         gameInfoHolder.currentLevelHolder.AdvanceLevel();
 
-        float spawnWaitTime = 1.05f - (float)gameInfoHolder.currentLevelHolder.remainingEnemies * 0.005f;
+       
 
-        yield return new WaitForSeconds(spawnWaitTime);
+        yield return new WaitForSeconds(1f);
 
 
         int lanes = gameInfoHolder.pathHolder.paths.Length;
 
-        for(int i = 0; i < gameInfoHolder.currentLevelHolder.remainingEnemies; )
+        if (gameInfoHolder.currentLevelHolder.IsBossRound())
         {
-            for (int j = 0; j < lanes; j++)
+            for (int i = 0; i < gameInfoHolder.currentLevelHolder.remainingEnemies;)
             {
-                SpawnEnemy(j);
+                SpawnBoss();
                 gameInfoHolder.currentLevelHolder.remainingEnemies--;
                 if (gameInfoHolder.currentLevelHolder.remainingEnemies == 0)
                     break;
             }
-            yield return new WaitForSeconds(spawnGapTime);
-
         }
+        else
+            for (int i = 0; i < gameInfoHolder.currentLevelHolder.remainingEnemies;)
+            {
+                for (int j = 0; j < lanes; j++)
+                {
+                    SpawnEnemy(j);
+                    gameInfoHolder.currentLevelHolder.remainingEnemies--;
+                    if (gameInfoHolder.currentLevelHolder.remainingEnemies == 0)
+                        break;
+                }
+                yield return new WaitForSeconds(spawnGapTime);
+
+            }
 
     }
 

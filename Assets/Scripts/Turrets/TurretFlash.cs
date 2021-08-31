@@ -35,7 +35,9 @@ public class TurretFlash : Turret
                 if ((transform.position - child.position).magnitude < range
                     && child.gameObject.GetComponent<Enemy>().timeLeftFrozen <= 0f)
                 {
-                    child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Damage(damage,
+                        transform.parent.GetComponent<Tile>().indexCoordinates);
+
                     child.GetComponent<Enemy>().Freeze(flashDuration);
                     timeTillNextShot += 1f / fireRate;
 
@@ -50,7 +52,8 @@ public class TurretFlash : Turret
             {
                 if((transform.position-child.position).magnitude < range)
                 {
-                    child.GetComponent<Enemy>().Damage(damage);
+                    child.GetComponent<Enemy>().Damage(damage,
+                        transform.parent.GetComponent<Tile>().indexCoordinates);
                     child.GetComponent<Enemy>().Freeze(flashDuration);
                     timeTillNextShot += 1f / fireRate;
 

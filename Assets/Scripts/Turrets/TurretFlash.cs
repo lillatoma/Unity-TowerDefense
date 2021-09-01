@@ -21,48 +21,60 @@ public class TurretFlash : Turret
     {
         return flashDurationUpgrade + flashLevel * flashDurationUpgradeStep;
     }
-
+    /// <summary>
+    /// Deals damage and flashes opponents that are within range
+    /// Target priority is lowest index, that is unfrozen
+    /// </summary>
     void AttackOpponents()
     {
         if (timeTillNextShot >= -0.1f)
             timeTillNextShot -= Time.deltaTime;
-
-        if (timeTillNextShot < 0f)
+        //For every possible shot compensated for lag
+        while (timeTillNextShot < 0f)
         {
-
+            bool hit = false;
             foreach (Transform child in enemyContainer.transform)
             {
-                if ((transform.position - child.position).magnitude < range
-                    && child.gameObject.GetComponent<Enemy>().timeLeftFrozen <= 0f)
+                //First non-frozen enemies are targeted
+                if (timeTillNextShot > 0f) //So no extra impossible shots are made
+                    break;
+                if (child.GetComponent<Enemy>().health <= 0) //Ignoring dead targets
+                    continue;
+                if ((transform.position - child.position).magnitude < range //Is within range
+                    && child.gameObject.GetComponent<Enemy>().IsFreezeable()) //And is freezable
                 {
                     child.GetComponent<Enemy>().Damage(damage,
                         transform.parent.GetComponent<Tile>().indexCoordinates);
 
                     child.GetComponent<Enemy>().Freeze(flashDuration);
                     timeTillNextShot += 1f / fireRate;
-
+                    hit = true;
                     CreateLine(child.position);
                     transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
-                    return;
                 }
             }
-
+            if (hit)
+                continue;
 
             foreach (Transform child in enemyContainer.transform)
             {
-                if((transform.position-child.position).magnitude < range)
+                if (timeTillNextShot > 0f)
+                    break;
+                if (child.GetComponent<Enemy>().health <= 0)
+                    continue;
+                if ((transform.position-child.position).magnitude < range)
                 {
                     child.GetComponent<Enemy>().Damage(damage,
                         transform.parent.GetComponent<Tile>().indexCoordinates);
                     child.GetComponent<Enemy>().Freeze(flashDuration);
                     timeTillNextShot += 1f / fireRate;
-
+                    hit = true;
                     CreateLine(child.position);
                     transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
-                    return;
                 }
             }
-
+            if (!hit)
+                break;
         }
     }
 
@@ -108,7 +120,10 @@ public class TurretFlash : Turret
         upgrades[3].valueFloat = flashDuration;
         upgrades[3].valueNextFloat = flashDuration + flashDurationStep;
     }
-
+    /// <summary>
+    /// Creates a line effect between the turret and lastShotTarget
+    /// </summary>
+    /// <param name="lastShotTarget"></param>
     public void CreateLine(Vector3 lastShotTarget)
     {
 
@@ -118,7 +133,7 @@ public class TurretFlash : Turret
             new Color(0f, 0.75f, 0.33f));
 
     }
-    public override void Upgrade(int which)
+    public override bool Upgrade(int which)
     {
         if (which == 0) //Damage
         {
@@ -129,6 +144,7 @@ public class TurretFlash : Turret
                 damageLevel++;
                 totalUpgrades++;
                 damage += damageStep;
+                return true;
             }
         }
         else if (which == 1) //Range
@@ -140,6 +156,7 @@ public class TurretFlash : Turret
                 rangeLevel++;
                 totalUpgrades++;
                 range += rangeStep;
+                return true;
             }
         }
         else if (which == 2) //Fire rate
@@ -151,6 +168,7 @@ public class TurretFlash : Turret
                 fireRateLevel++;
                 totalUpgrades++;
                 fireRate += fireRateStep;
+                return true;
             }
         }
         else if (which == 3) //Flash duration
@@ -162,8 +180,10 @@ public class TurretFlash : Turret
                 flashLevel++;
                 totalUpgrades++;
                 flashDuration += flashDurationStep;
+                return true;
             }
         }
+        return false;
     }
 
     // Update is called once per frame

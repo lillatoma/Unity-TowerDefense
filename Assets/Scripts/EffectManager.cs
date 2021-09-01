@@ -8,7 +8,11 @@ public class EffectManager : MonoBehaviour
 
     private List<float> lineEffectTime;
     private List<GameObject> lineEffects;
-
+    /// <summary>
+    /// Returns the first inacive lineEffect
+    /// Returns -1 if all the lineEffects are active
+    /// </summary>
+    /// <returns></returns>
     int FindFirstInactiveLine()
     {
         for (int i = 0; i < lineEffects.Count; i++)
@@ -21,8 +25,9 @@ public class EffectManager : MonoBehaviour
     public void SetupLineEffect(Vector3 start, Vector3 end, Color startC, Color endC)
     {
         int first = FindFirstInactiveLine();
-        if (first != -1)
+        if (first != -1) //If there is an inactive lineeffect
         {
+            //We can set the inactive lineeffect
             lineEffectTime[first] = 0;
             lineEffects[first].GetComponent<LineRenderer>().SetPosition(0, start);
             lineEffects[first].GetComponent<LineRenderer>().SetPosition(1, end);
@@ -36,14 +41,16 @@ public class EffectManager : MonoBehaviour
             }
             lineEffects[first].SetActive(true);
         }
-        else
+        else //If all the lineeffects are active
         {
+            //We create a new lineeffectt that we disable
             GameObject go = GameObject.Instantiate(lineEffect);
             go.transform.parent = transform;
             go.SetActive(false);
             lineEffects.Add(go);
             float linetime = 0f;
             lineEffectTime.Add(linetime);
+            //Programmer's laziness. It's easier to call the function again
             SetupLineEffect(start, end, startC, endC);
 
         }
@@ -52,6 +59,9 @@ public class EffectManager : MonoBehaviour
 
     void SimulateLineEffects()
     {
+        //For every active lineeffect
+        //We update the colors
+        //We disable the effect after 0.25 seconds
         for(int i = 0; i < lineEffects.Count; i++)
         {
             if(lineEffects[i].activeSelf)

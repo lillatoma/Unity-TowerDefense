@@ -20,6 +20,11 @@ public class CurrentLevelHolder : MonoBehaviour
             l = level;
         return (l % 10) == 0;
     }
+    /// <summary>
+    /// Generates the current level
+    /// Levels get harder in a faster pace at levels 10, 25, 50, 75 and 100
+    /// Every 10th level is a boss round
+    /// </summary>
     public void GenerateLevel()
     {
         int skillPoints = level;
@@ -52,14 +57,14 @@ public class CurrentLevelHolder : MonoBehaviour
 
             for (int i = 0; i < level; i++)
             {
-                baseHealth += 15;
+                baseHealth += 30;
                 baseSpeed += .015f;
                 baseHealth = (int)(1.0125f * baseHealth);
             }
 
             for (int i = 0; i < healthPoints; i++)
             {
-                baseHealth += 50;
+                baseHealth += 75;
                 baseHealth = (int)(1.015f * baseHealth);
             }
 
@@ -149,18 +154,5 @@ public class CurrentLevelHolder : MonoBehaviour
     public void AdvanceLevel()
     {
         level++;
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

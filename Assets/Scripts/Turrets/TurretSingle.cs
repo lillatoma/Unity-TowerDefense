@@ -12,15 +12,25 @@ public class TurretSingle : Turret
 
     EffectManager effectManager;
 
+    /// <summary>
+    /// Deals damage to opponents
+    /// Target priority is lowest index
+    /// </summary>
     void AttackOpponents()
     {
         if (timeTillNextShot >= -0.1f)
             timeTillNextShot -= Time.deltaTime;
 
-        if (timeTillNextShot < 0f)
+        // For lag compensation, we check every possible shot
+        while (timeTillNextShot < 0f)
         {
+            bool hit = false;
             foreach(Transform child in enemyContainer.transform)
             {
+                if (timeTillNextShot > 0f) //No extra shots
+                    break;
+                if (child.GetComponent<Enemy>().health <= 0) // Ignoring dead enemies
+                    continue;
                 if((transform.position-child.position).magnitude < range)
                 {
                     child.GetComponent<Enemy>().Damage(damage,
@@ -28,10 +38,11 @@ public class TurretSingle : Turret
                     timeTillNextShot += 1f / fireRate;
                     CreateLine(child.position);
                     transform.rotation = Quaternion.Euler(0, 0, Utils.RealVector2Angle(child.position - transform.position) - 90f);
-                    return;
+                    hit = true;
                 }
             }
-
+            if (!hit)
+                break;
         }
     }
 
@@ -80,7 +91,7 @@ public class TurretSingle : Turret
             new Color(1f, 0.75f, 0f));
 
     }
-    public override void Upgrade(int which)
+    public override bool Upgrade(int which)
     {
         if (which == 0) //Damage
         {
@@ -91,6 +102,7 @@ public class TurretSingle : Turret
                 damageLevel++;
                 totalUpgrades++;
                 damage += damageStep;
+                return true;
             }
         }
         else if (which == 1) //Range
@@ -102,6 +114,7 @@ public class TurretSingle : Turret
                 rangeLevel++;
                 totalUpgrades++;
                 range += rangeStep;
+                return true;
             }
         }
         else if (which == 2) //Fire rate
@@ -113,8 +126,10 @@ public class TurretSingle : Turret
                 fireRateLevel++;
                 totalUpgrades++;
                 fireRate += fireRateStep;
+                return true;
             }
         }
+        return false;
     }
 
     // Update is called once per frame

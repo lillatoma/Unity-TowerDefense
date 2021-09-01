@@ -14,9 +14,12 @@ public class PauseButtonText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Changes the button text to "Stop autospawn"
+        //If spawn is paused, then "Start autospawn"
         Text text = GetComponent<Text>();
-        text.text = "Pause";
         if (gameController.spawnPaused)
-            text.text = "Unpause";
+            text.text = "Start autospawn";
+        else
+            text.text = "Stop autospawn";
     }
 }

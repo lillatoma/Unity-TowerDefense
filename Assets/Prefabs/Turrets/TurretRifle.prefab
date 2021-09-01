@@ -119,9 +119,10 @@ MonoBehaviour:
   damageUpgrade: 50
   rangeUpgrade: 50
   fireRateUpgrade: 50
-  damageUpgradeStep: 45
+  damageUpgradeStep: 40
   rangeUpgradeStep: 45
   fireRateUpgradeStep: 45
   cashSpent: 0
   totalUpgrades: 0
   noOfUpgrades: 0
+  eliminations: 0

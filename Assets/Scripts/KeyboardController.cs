@@ -14,6 +14,7 @@ public class KeyboardController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Changes the selected turret based on the pressed button
         if(Input.GetKeyDown(KeyCode.Alpha1))
             gameInfoHolder.selectionHolder.SelectedTurretInMenu = 0;
         else if (Input.GetKeyDown(KeyCode.Alpha2))

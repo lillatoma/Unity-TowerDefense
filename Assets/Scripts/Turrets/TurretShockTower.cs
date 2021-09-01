@@ -14,6 +14,9 @@ public class TurretShockTower : Turret
             new Color(0f, 0.25f, 1f));
 
     }
+    /// <summary>
+    /// Deals damage to every enemy within range
+    /// </summary>
     void AttackOpponents()
     {
         if (timeTillNextShot >= -0.1f)
@@ -21,11 +24,14 @@ public class TurretShockTower : Turret
 
 
 
-        if (timeTillNextShot < 0f)
+        while (timeTillNextShot < 0f)
         {
             bool hit = false;
+            //In this loop, every enemy in range gets targetted
             foreach (Transform child in enemyContainer.transform)
             {
+                 if (child.GetComponent<Enemy>().health <= 0) 
+                    continue;
                 if ((transform.position - child.position).magnitude < range)
                 {
                     child.GetComponent<Enemy>().Damage(damage,
@@ -34,8 +40,10 @@ public class TurretShockTower : Turret
                     CreateLine(child.position);
                 }
             }
-            if(hit)
+            if (hit)
                 timeTillNextShot += 1f / fireRate;
+            else
+                break;
 
         }
     }
@@ -77,7 +85,7 @@ public class TurretShockTower : Turret
     }
 
 
-    public override void Upgrade(int which)
+    public override bool Upgrade(int which)
     {
         if (which == 0) //Damage
         {
@@ -88,6 +96,7 @@ public class TurretShockTower : Turret
                 damageLevel++;
                 totalUpgrades++;
                 damage += damageStep;
+                return true;
             }
         }
         else if (which == 1) //Range
@@ -99,6 +108,7 @@ public class TurretShockTower : Turret
                 rangeLevel++;
                 totalUpgrades++;
                 range += rangeStep;
+                return true;
             }
         }
         else if (which == 2) //Fire rate
@@ -110,8 +120,10 @@ public class TurretShockTower : Turret
                 fireRateLevel++;
                 totalUpgrades++;
                 fireRate += fireRateStep;
+                return true;
             }
         }
+        return false;
     }
 
     // Update is called once per frame

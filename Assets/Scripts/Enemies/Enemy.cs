@@ -2,30 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// An object that represents an enemy ingame
+/// </summary>
 public class Enemy : MonoBehaviour
 {
+    [Header("Properties")]
     public string enemyName;
     public int health;
     public int totalHealth;
     public float speed;
     public float timeLeftFrozen = 0f;
+    public float freezeImmunityTime = 0f;
     public float moveTime = 0f;
+    public bool immune_to_freeze = false;
     protected float timeSinceLastHit = 0f;
     private Vector2Int lastHitOriginCoords;
 
+    [Header("Object references")]
     public EnemyPath path;
     public GameObject healthBarBg;
     public GameObject healthBar;
-
     public GameObject deadModel;
 
+    /// <summary>
+    /// This function changes the color modulation of the sprite to a lightblueish color
+    /// </summary>
     public void DrawFreeze()
     {
         if (timeLeftFrozen > 0f)
-            GetComponent<SpriteRenderer>().color = new Color(0.01f, 0.5f, 1f);
+            GetComponent<SpriteRenderer>().color = new Color(0.35f, 0.7f, 1f);
     }
-
+    /// <summary>
+    /// In a .25 second timewindow, it changes the color modulation to a redish color which fades over time
+    /// </summary>
     public void DrawDamage()
     {
         float o = 0.5f + timeSinceLastHit * 4f;
@@ -35,6 +45,11 @@ public class Enemy : MonoBehaviour
         GetComponent<SpriteRenderer>().color = new Color(0.5f*(1f+o), 0.5f*(1f+o), 1f);
     }
 
+    /// <summary>
+    /// Gains money for the player 
+    /// Adds an elimination to the player and the turret
+    /// Creates a new dead model
+    /// </summary>
     public void OnDeath()
     {
         GameInfoHolder gih = FindObjectOfType<GameInfoHolder>();
@@ -51,11 +66,21 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// If the object is freezeable, it increases the freezetime
+    /// </summary>
+    /// <param name="time"></param>
     public void Freeze(float time)
     {
+        if (immune_to_freeze || freezeImmunityTime > 0f)
+            return;
         timeLeftFrozen += time;
     }
-
+    /// <summary>
+    /// Deals damage and checks for death
+    /// </summary>
+    /// <param name="dmg"></param>
+    /// <param name="originCoords"></param>
     public void Damage(int dmg, Vector2Int originCoords)
     {
         health -= dmg;
@@ -66,6 +91,11 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             OnDeath(); 
     }
+
+    /// <summary>
+    /// Returns the accurate position on the current path according to the time moved
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetPosition()
     {
         float distTraveled = moveTime * speed;
@@ -84,12 +114,17 @@ public class Enemy : MonoBehaviour
             }
             distTraveled -= pointDist;
         }
+        //The enemy has passed all the pathpoints
+        //
         moveTime = 0f;
         GameInfoHolder gih = FindObjectOfType<GameInfoHolder>();
         gih.statHolder.livesLeft--;
         return GetPosition();
     }
-
+    /// <summary>
+    /// Returns the accurate moveAngle on the current path according to the time moved
+    /// </summary>
+    /// <returns></returns>
     public float GetDirectionAngle()
     {
         float distTraveled = moveTime * speed;
@@ -110,7 +145,17 @@ public class Enemy : MonoBehaviour
         gih.statHolder.livesLeft--;
         return GetDirectionAngle();
     }
-
+    /// <summary>
+    /// Returns true if there is no freeze immunity and the enemy is not frozen and is not immnue to freeze  
+    /// </summary>
+    /// <returns></returns>
+    public bool IsFreezeable()
+    {
+        return freezeImmunityTime <= 0f && timeLeftFrozen <= 0f && !immune_to_freeze;
+    }
+    /// <summary>
+    /// Updates the health bar to accurately show how much health is left
+    /// </summary>
     public void UpdateHealthBar()
     {
         float percent = (float)health / (float)totalHealth;
@@ -129,37 +174,37 @@ public class Enemy : MonoBehaviour
 
         if(percent > 0.5f)
         {
-            r = (byte)(1f - (percent - 0.5f) * 2f);
+            r = (1f - (percent - 0.5f) * 2f);
         }
         else if (percent >= 0f)
         {
-            g = (byte)(percent * 2f);
+            g = (percent * 2f);
         }
 
 
-        healthBar.GetComponent<SpriteRenderer>().color = new Color(r, g, b);
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        healthBar.GetComponent<SpriteRenderer>().color = new Color(r, g, 1f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Doing the movement
         if (timeLeftFrozen > 0f)
         {
             timeLeftFrozen -= Time.deltaTime;
+            if (timeLeftFrozen <= 0f)
+                freezeImmunityTime = 0.1f;
         }
         else moveTime += Time.deltaTime;
 
+        //Doing timers
         timeSinceLastHit += Time.deltaTime;
+        freezeImmunityTime -= Time.deltaTime;
 
+        //Setting position and rotation
         transform.position = GetPosition() + new Vector3(-16.5f,-15.5f,0);
         transform.rotation = Quaternion.Euler(0, 0, GetDirectionAngle());
+
         UpdateHealthBar();
         DrawDamage();
         DrawFreeze();

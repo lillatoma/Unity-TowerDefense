@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for a dead enemy
+/// Lasts only for 0.666 seconds, then destroys the gameobject
+/// </summary>
 public class EnemyDead : MonoBehaviour
 {
     float time = 0f;

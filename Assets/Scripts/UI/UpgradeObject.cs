@@ -28,11 +28,18 @@ public class UpgradeObject : MonoBehaviour
         return gameInfoHolder.mapCreator.Blocks[se.x, se.y].transform.GetChild(0).GetComponent<Turret>();
     }
 
+    /// <summary>
+    /// Upgrades the selected turret
+    /// If Left Shift is pressed, upgrades the selected turret as many times as possible
+    /// </summary>
     public void CommitUpgrade()
     {
         if (gameInfoHolder.selectionHolder.SelectedTurretOnMap != new Vector2Int(-1, -1))
         {
             GetSelected().Upgrade(upgradeIndex);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                while (GetSelected().Upgrade(upgradeIndex)) ;
         }
     }
 

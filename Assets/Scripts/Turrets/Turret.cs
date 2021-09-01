@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Data holder for turret upgrades
+/// </summary>
 public class UpgradeData
 {
 
@@ -53,6 +56,9 @@ public class UpgradeData
 
 }
 
+/// <summary>
+/// Data holder for turrets
+/// </summary>
 public class Turret : MonoBehaviour
 {
     public string turretName;
@@ -68,19 +74,19 @@ public class Turret : MonoBehaviour
     public float rangeStep;
     public float fireRateStep;
 
-    [Header("Price data")]
+    [Header("Upgrade Price data")]
     public int damageUpgrade;
     public int rangeUpgrade;
     public int fireRateUpgrade;
 
-    [Header("Price data on upgrades")]
+    [Header("Upgrade Price data on upgrades")]
     public int damageUpgradeStep;
     public int rangeUpgradeStep;
     public int fireRateUpgradeStep;
 
+    [Header("Statistics")]
     public int cashSpent = 0;
     public int totalUpgrades = 0;
-
     public int noOfUpgrades;
     public UpgradeData[] upgrades;
     public int eliminations = 0;
@@ -99,6 +105,10 @@ public class Turret : MonoBehaviour
         gameInfoHolder = FindObjectOfType<GameInfoHolder>();
     }
 
+    /// <summary>
+    /// Returns 80% of the base price + 50% of the money spent on upgrades
+    /// </summary>
+    /// <returns></returns>
     public int CalculateSellPrice()
     {
         return basePrice * 4 / 5 + cashSpent / 2;
@@ -119,8 +129,9 @@ public class Turret : MonoBehaviour
         return fireRateUpgrade + fireRateLevel * fireRateUpgradeStep;
     }
 
-    virtual public void Upgrade(int which)
+    virtual public bool Upgrade(int which)
     {
+        return false;
     }
 
 

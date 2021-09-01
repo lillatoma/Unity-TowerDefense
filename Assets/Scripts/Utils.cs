@@ -9,6 +9,11 @@ public class Utils
         return Mathf.Sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
     }
 
+    /// <summary>
+    /// Returns the angle in degrees of the directon vector _in
+    /// </summary>
+    /// <param name="_in"></param>
+    /// <returns></returns>
     public static float RealVector2Angle(Vector2 _in) //Like, why do you use weird logic, dear Vector2.Angle(...)?
     {
         float _out;

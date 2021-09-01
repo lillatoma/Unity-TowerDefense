@@ -14,6 +14,12 @@ public class MouseController : MonoBehaviour
         gameInfoHolder = FindObjectOfType<GameInfoHolder>();
     }
 
+    /// <summary>
+    /// Sets up the Range Visualizer Circle's position if
+    /// - the mouse hovers a turret
+    /// - if a turret is about to be placed
+    /// - if a turret is selected
+    /// </summary>
     void RangeVis()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -66,6 +72,7 @@ public class MouseController : MonoBehaviour
     }
     
 
+    //Updates the selection on the tile the mouse is hovering
     void UpdateMouseTile()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -85,15 +92,16 @@ public class MouseController : MonoBehaviour
 
             if (hit)
             {
+                //If clicked on a tile
                 if (hit.transform.gameObject.GetComponent<Tile>())
                 {
                     Tile tile = hit.transform.gameObject.GetComponent<Tile>();
-                    if (tile.IsEmpty())
+                    if (tile.IsEmpty()) // If there is no turret on it
                     {
                         gameInfoHolder.selectionHolder.SelectedTurretOnMap = new Vector2Int(-1, -1);
                         tile.PlaceTurret();
                     }
-                    else
+                    else // There is a turret that can be selected
                     {
                         gameInfoHolder.selectionHolder.SelectedTurretOnMap = tile.indexCoordinates;
                         gameInfoHolder.selectionHolder.SelectedTurretInMenu = -1;

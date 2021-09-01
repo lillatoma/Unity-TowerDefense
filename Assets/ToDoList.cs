@@ -1,5 +1,7 @@
 ////////////////////////////////////////////
-/// Button for turret placing
 /// More Enemy types: Charged runner, Splitter
-/// Boss rounds for every 10 level
 ////////////////////////////////////////////
+/// shift upgrade
+/// Boss can't be froozen
+/// Freeze safety time after freeze
+/// Time changer buttons

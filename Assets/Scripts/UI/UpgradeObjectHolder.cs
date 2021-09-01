@@ -28,6 +28,7 @@ public class UpgradeObjectHolder : MonoBehaviour
     {
         if (gameInfoHolder.selectionHolder.SelectedTurretOnMap != new Vector2Int(-1, -1))
         {
+            //Setting active just as many objects as many upgrads are available
             for (int i = 0; i < upgradeObjects.Length; i++)
             {
                 if (i < GetSelected().noOfUpgrades)
@@ -37,7 +38,8 @@ public class UpgradeObjectHolder : MonoBehaviour
 
             }
         }
-        else
+        //Disabling every object if no turret is selecte
+        else 
             foreach (UpgradeObject child in upgradeObjects)
                 child.gameObject.SetActive(false);
     }

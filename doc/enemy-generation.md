@@ -10,5 +10,7 @@ According to the current level, skillpoints are given with the following taken i
 
 A skillpoint is used for advancing the health, speed and amount of enemies in a level.  
 
+Every 10th round is a boss round. A boss is immune to freeze effects.  
+
 Detailed formula in `CurrentLevelHolder.cs`.
 
